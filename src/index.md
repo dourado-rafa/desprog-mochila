@@ -99,7 +99,9 @@ Se a mochila tem capacidade 10 e o objeto tem peso 4, qual deve ser o peso máxi
 ::: Gabarito
 O peso da mochila antes do objeto ser adicionado deve ser a capacidade máxima menos o peso do objeto. Nesse caso 10-6 = 4.
 
+:caso_preenchimento
 :::
+
 
 ???
 
