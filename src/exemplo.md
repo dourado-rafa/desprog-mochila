@@ -20,7 +20,7 @@ assim como
 
 e imagens. Lembre que todas as imagens devem estar em uma subpasta *img*.
 
-![](logo.png)
+<!-- ![](logo.png) -->
 
 Para tabelas, usa-se a [notação do
 MultiMarkdown](https://fletcher.github.io/MultiMarkdown-6/syntax/tables.html),
@@ -40,7 +40,7 @@ $$\lim_{n \rightarrow \infty} \frac{f(n)}{g(n)} \leq 1$$
 Para inserir uma animação, use `md :` seguido do nome de uma pasta onde as
 imagens estão. Essa pasta também deve estar em *img*.
 
-:bubble
+<!-- :bubble -->
 
 Você também pode inserir código, inclusive especificando a linguagem.
 
