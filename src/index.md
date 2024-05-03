@@ -52,7 +52,7 @@ O `md peso do item` é a quantidade do fator limitante que cada item possui. Ess
 
 O `md valor do item` é fator de interesse que cada item possui e que se deseja maximizar. No exemplo acima, o *"valor"* era o valor monetário daquele item, mas esse
 
-??? Checkpoint
+<!-- ??? Checkpoint
 Dado o contexto a seguir, determine a **unidade do fator de interesse (valor do item)**, a **unidade do fator limitante (peso do item)** e a **capacidade da mochila**.
 
 Uma transportadora recebe diversos pacotes diariamente para serem entregues pela cidade. Devido ao alto volume de pacotes recebidos e a organização dos caminhões que realizam as entregas, não é possível entregar todos os pacotes no mesmo dia ou até nos dias seguintes. Por isso, há um pequeno acúmulo de pacotes que estão a vários dias na transportadora. Esses pacotes possuem dimensões variadas e faces retangulares.
@@ -67,12 +67,12 @@ Como a empresa precisa que o máximo de pacotes atrasados sejam enviados, o *fat
 Como o peso não é um impedimento e os camiões não são infinitos, ou seja, seu tamanho tem um limite, o fato limitante seria a **volume do pacote**. Dessa forma, a capacidade da mochila seria o **volume máximo do caminhão**.
 :::
 
-???
+??? -->
 
 O Algoritmo
 ------
 
-??? Checkpoint
+<!-- ??? Checkpoint
 
 Já vimos quais são as entradas do algoritmo e o que elas significam. Com base nisso, escreva o cabeçalho da função res_mochila_bin;
 
@@ -84,7 +84,7 @@ int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]);
 ```
 :::
 
-???
+??? -->
 
 Agora vamos começar a estruturar o código. Se na solução do algoritmo um determinado objeto está na mochila é necessariamente verdade que:
 1. A capacidade da mochila não é ultrapassada ao colocar aquele objeto
@@ -101,7 +101,6 @@ O peso da mochila antes do objeto ser adicionado deve ser a capacidade máxima m
 
 :caso_preenchimento
 :::
-
 
 ???
 
@@ -121,7 +120,7 @@ Dessa forma, se estivermos por exemplo no índice 2 da lista, estaremos fazendo 
 
 Solução Recursiva
 ------
-
+<!--
 A ideia dessa solução é implementar exatamente o que foi apresentado até agora. Para isso vamos usar os passos dados em aula para se montar funções recursivas, se você já esqueceu como ou quais são os passos, revise a [aula 2](https://ensino.hashi.pro.br/desprog/aula/2/).
 
 ??? Checkpoint
@@ -301,7 +300,7 @@ int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]){
 
 :::
 
-???
+??? -->
 
 Solução Dinâmica
 ------
@@ -310,7 +309,7 @@ A ideia da solução dinâmica é fazer a solução de todas as mochilas de capa
 
 Não apenas criaremos a matriz de solução (que é a matriz binária), como também uma matriz no mesmo tamanho, mas para guardar os valores máximos obtidos para cada capacidade, que como visto anteriormente, são necessários. Dessa forma, a solução dinâmica evita que os valores de capacidades intermediárias sejam calculados várias vezes.
 
-Como já sabemos que o algoritmo precisa preencher as matrizes para achar a solução, teremos como base a seguinte estrutura:
+<!-- Como já sabemos que o algoritmo precisa preencher as matrizes para achar a solução, teremos como base a seguinte estrutura:
 
 ``` c
 int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
@@ -325,7 +324,7 @@ int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
     }
     // leitura do resultado
 }
-```
+``` -->
 
 ??? Checkpoint
 
@@ -338,7 +337,7 @@ Nenhum objeto terá peso menor ou igual a 0, portanto, todas as linhas devem ser
 
 ???
 
-??? Checkpoint
+<!-- ??? Checkpoint
 
 Preencha o código do caso inicial de acordo com a conclusão anterior.
 
@@ -362,9 +361,9 @@ int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
 ```
 :::
 
-???
+??? -->
 
-Agora iremos preencher a matriz verificando se cada objeto deve ser adicionado ou não. Lembre-se que o que queremos é maximizar o valor da mochila final. Tente preencher as condições de escolha baseado nisso e nas explicações anteriores.
+<!-- Agora iremos preencher a matriz verificando se cada objeto deve ser adicionado ou não. Lembre-se que o que queremos é maximizar o valor da mochila final. Tente preencher as condições de escolha baseado nisso e nas explicações anteriores.
 
 ??? Checkpoint
 
@@ -394,9 +393,9 @@ int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
 ```
 :::
 
-???
+??? -->
 
-Finalmente, vamos preencher a matriz que mais interessa, a matriz binária. Para isso, basta colocar 1 se o objeto foi escolhido e 0 se ele não foi.
+<!-- Finalmente, vamos preencher a matriz que mais interessa, a matriz binária. Para isso, basta colocar 1 se o objeto foi escolhido e 0 se ele não foi.
 
 ``` c
 int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
@@ -454,7 +453,7 @@ int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
     }
     return M_valores[capacidade][n];
 }
-```
+``` -->
 Com isso falta apenas mais um tópico.
 
 Complexidade da Solução Dinâmica
