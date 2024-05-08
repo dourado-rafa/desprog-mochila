@@ -16,7 +16,7 @@ Dada a lista de objetos abaixo e que sua mochila possui **10 [unidades de volume
 |----------|--------|-------|
 | Headset  | 3      | 30    |
 | Livro    | 4      | 20    |
-| Relógio  | 2      | 40    |
+| Relógio  | 2      | 30    |
 | Notebook | 7      | 50    |
 | Tablet   | 4      | 40    |
 
@@ -52,41 +52,17 @@ O `md peso do item` é a quantidade do fator limitante que cada item possui. Ess
 
 O `md valor do item` é fator de interesse que cada item possui e que se deseja maximizar. No exemplo acima, o *"valor"* era o valor monetário daquele item, mas esse
 
-<!-- ??? Checkpoint
-Dado o contexto a seguir, determine a **unidade do fator de interesse (valor do item)**, a **unidade do fator limitante (peso do item)** e a **capacidade da mochila**.
-
-Uma transportadora recebe diversos pacotes diariamente para serem entregues pela cidade. Devido ao alto volume de pacotes recebidos e a organização dos caminhões que realizam as entregas, não é possível entregar todos os pacotes no mesmo dia ou até nos dias seguintes. Por isso, há um pequeno acúmulo de pacotes que estão a vários dias na transportadora. Esses pacotes possuem dimensões variadas e faces retangulares.
-
-A transportadora precisa escolher quais pacotes serão colocados no próximo caminhão. Para que os clientes não reclamem, a transportadora precisa colocar o máximo de pacotes atrasados nesse caminhão ocupando toda (ou quase) sua capacidade.
-
-É interessante saber que os caminhões são bem potentes, então o peso total dos pacotes não é um impedimento.
-
-::: Gabarito
-Como a empresa precisa que o máximo de pacotes atrasados sejam enviados, o *fator de interesse* poderia ser a **quantidade de dias que o pacote está na transportadora**.
-
-Como o peso não é um impedimento e os camiões não são infinitos, ou seja, seu tamanho tem um limite, o fato limitante seria a **volume do pacote**. Dessa forma, a capacidade da mochila seria o **volume máximo do caminhão**.
-:::
-
-??? -->
-
 O Algoritmo
 ------
 
-<!-- ??? Checkpoint
+Para a aproximar a notação usada nesse handout com a notação encontrada nos algoritimos utilizaremos a seguinte notação:
 
-Já vimos quais são as entradas do algoritmo e o que elas significam. Com base nisso, escreva o cabeçalho da função res_mochila_bin;
+* **M**: capacidade da mochila
+* **n**: número de objetos na lista
+* **pesos**: lista que contem os pesos de cada objeto
+* **valores**: lista que contemm os valores de cada objeto 
 
-::: Gabarito
-
-``` c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]);
-
-```
-:::
-
-??? -->
-
-Agora vamos começar a estruturar o código. Se na solução do algoritmo um determinado objeto está na mochila é necessariamente verdade que:
+Agora vamos começar a estruturar o algoritmo. Se na solução do algoritmo um determinado objeto está na mochila é necessariamente verdade que:
 1. A capacidade da mochila não é ultrapassada ao colocar aquele objeto
 2. A mochila fica mais valiosa com aquele objeto dentro do que sem ele ( ou seja, se a mochila fosse preenchida até a capacidade máxima mas apenas com os outros objetos )
 
@@ -97,9 +73,7 @@ Para garantir o primeiro ponto, primeiro devemos ter o cuidado de adicionar o ob
 Se a mochila tem capacidade 10 e o objeto tem peso 4, qual deve ser o peso máximo da mochila antes do objeto ser adicionado?
 
 ::: Gabarito
-O peso da mochila antes do objeto ser adicionado deve ser a capacidade máxima menos o peso do objeto. Nesse caso 10-6 = 4.
-
-:caso_preenchimento
+O peso da mochila antes do objeto ser adicionado deve ser a capacidade máxima menos o peso do objeto. Nesse caso $10-6 = 4$.
 :::
 
 ???
@@ -112,7 +86,7 @@ Garantir o segundo ponto é um pouco mais complicado, nesse caso a lógica do al
 |----------|--------|-------|------|
 | Headset  | 3      | 30    | 0    |
 | Livro    | 4      | 20    | 1    |
-| Relógio  | 2      | 40    | 2    |
+| Relógio  | 2      | 30    | 2    |
 | Notebook | 7      | 50    | 3    |
 | Tablet   | 4      | 40    | 4    |
 
@@ -305,37 +279,30 @@ int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]){
 Solução Dinâmica
 ------
 
-A ideia da solução dinâmica é fazer a solução de todas as mochilas de capacidades menores até chegar na capacidade desejada. Como foi visto anteriormente, o algoritmo também cria a solução considerando apenas um objeto da lista, depois dois e assim por diante até considerar todos. As soluções desses casos menores serão salvas em uma matriz em que as linhas são os índices e as colunas são as capacidades começando da capacidade 0.
+A solução dinâmica utiliza a mesma premissa da solução descursiva: para resolver uma mochila é necessesário comparar duas mochilas menores. Dessa forma, a metodologia dessa solução é, em vez de calcular cada mochila repetidas vezes quando preciso dela, calcular todas as mochilas menores até chegar na mochila desejada?
 
-Não apenas criaremos a matriz de solução (que é a matriz binária), como também uma matriz no mesmo tamanho, mas para guardar os valores máximos obtidos para cada capacidade, que como visto anteriormente, são necessários. Dessa forma, a solução dinâmica evita que os valores de capacidades intermediárias sejam calculados várias vezes.
+Ao longo desse processo o valor máximo obtidos para cada mochila será armazenado em uma matriz em que as linhas são os índices que poderão ser considerados na análise (começando por nenhum e terminando por $n-1$), e as colunas são as capacidades (começando da capacidade $0$ e terminando com $M$), como a imagem a seguir:
 
-<!-- Como já sabemos que o algoritmo precisa preencher as matrizes para achar a solução, teremos como base a seguinte estrutura:
+![Matriz Vazia](matriz_vazia.png)
 
-``` c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
-    int M_binaria[capacidade][n];
-    int M_valores[capacidade][n];
-    for (int j = 0; j =< capacidade; j++) {
-        for (int i = 0; i < n; i ++) {
-            // caso inicial
-            // condições de escolha
-            // preencher matriz binária
-        }
-    }
-    // leitura do resultado
-}
-``` -->
+Assim, quando for necessário comparar duas mochilas menores para calcular uma maior essas mochilas menores já estarão prontas, basta acessa-las na matriz.
+
+Agora, vamos entender a lógica de preenchimento dessa matriz.
 
 ??? Checkpoint
 
-O caso inicial é quando a mochila tem capacidade nula, nesse caso, como devemos preencher a matriz?
+O caso base é quando a mochila tem capacidade nula ou não há objetos a serem analizados. Nesse caso, como devemos preencher a matriz?
 
 ::: Gabarito
-Nenhum objeto terá peso menor ou igual a 0, portanto, todas as linhas devem ser preenchidas com 0.
+Nenhum objeto terá peso menor ou igual a 0, portanto, então a primeira coluna deve ser preenchida com 0. A primeira linha também deve ser preenchida com 0, já que, se não há objetos na lista, não há como preencher a mochila, ou seja, ela estará sempre vazia. Assim, obtemos a seguinte matriz:
+
+![Matriz Base](matriz_base.png)
 
 :::
 
 ???
+
+:preenchimento_completo
 
 <!-- ??? Checkpoint
 
