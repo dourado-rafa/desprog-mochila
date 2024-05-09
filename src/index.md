@@ -91,226 +91,94 @@ O `md valor do item` é fator de interesse que cada item possui e que se deseja 
 O Algoritmo
 ------
 
-Para a aproximar a notação usada nesse handout com a notação encontrada nos algoritimos utilizaremos a seguinte notação:
+Para a aproximar a notação usada nesse handout com a notação encontrada nos algoritmos utilizaremos a seguinte notação:
 
 * **M**: capacidade da mochila
 * **n**: número de objetos na lista
 * **pesos**: lista que contem os pesos de cada objeto
-* **valores**: lista que contemm os valores de cada objeto 
+* **valores**: lista que contém os valores de cada objeto 
+
+A ordem da lista de pesos e valores deve ser a mesma, ou seja, se o peso do Headset está na primeira posição da lista de pesos, o valor dele também deve estar na primeira posição da lista de valores. Perceba que isso significa que cada índice estará associado a um objeto. Tenha isso em mente, pois vai ser muito importante mais pra frente.
+
+Ordenando a lista do exemplo inicial teríamos:
+
+![Lista com índices](lista_objetos_indices.png)
 
 Agora vamos começar a estruturar o algoritmo. Se na solução do algoritmo um determinado objeto está na mochila é necessariamente verdade que:
 1. A capacidade da mochila não é ultrapassada ao colocar aquele objeto
 2. A mochila fica mais valiosa com aquele objeto dentro do que sem ele ( ou seja, se a mochila fosse preenchida até a capacidade máxima mas apenas com os outros objetos )
 
-Para garantir o primeiro ponto, primeiro devemos ter o cuidado de adicionar o objeto em uma mochila que não esteja completamente cheia pois ao adicionarmos o objeto, o peso da mochila aumentará.
+Para garantir o primeiro ponto, primeiramente não podemos adicionar um objeto que tenha capacidade maior que a capacidade máxima da mochila. Com isso, já sabemos que o algoritmo só irá conferir as outras condições se o objeto puder ser adicionado.
+
+```python
+se pesos[objeto] <= M, então:
+    ve se o objeto entra na mochila
+se nao:
+    retorna o valor da mochila sem o objeto
+```
+
+Além disso, devemos ter o cuidado de adicionar o objeto em uma mochila que tenha peso total menor que a capacidade máxima, pois ao adicionarmos o objeto, o peso da mochila aumentará.
 
 ??? Checkpoint
 
-Se a mochila tem capacidade 10 e o objeto tem peso 4, qual deve ser o peso máximo da mochila antes do objeto ser adicionado?
+Partindo do problema inicial, se quisermos adicionar o tablet (peso 4) na mochila (capacidade 10), qual deve ser o peso máximo da mochila antes de colocarmos o tablet?
 
 ::: Gabarito
-O peso da mochila antes do objeto ser adicionado deve ser a capacidade máxima menos o peso do objeto. Nesse caso $10-6 = 4$.
+O peso máximo da mochila antes do tablet ser adicionado deve ser a capacidade máxima menos o peso do objeto. Nesse caso $10-4 = 6$. Caso fosse maior que isso, a capacidade da mochila seria ultrapassada ao colocarmos o tablet.
 :::
 
 ???
 
-Além disso, há mais uma coisa que devemos checar. Se o objeto tiver peso maior que a capacidade da mochila, ele não pode ser adicionado.
+Generalizando para qualquer objeto, se a mochila tem capacidade $M$ o objeto só pode ser adicionado em uma mochila de capacidade $M - peso[objeto]$.
 
-Garantir o segundo ponto é um pouco mais complicado, nesse caso a lógica do algoritmo consiste em ir aumentando progressivamente a quantidade de objetos que está sendo considerada e fazer a solução para cada quantidade. Na prática, essa progressão é feita utilizando o índice das listas de pesos e valores ( que, por isso, devem estar na mesma ordem ). Perceba que isso significa que cada índice estará associado a um objeto. Considerando novamente o caso base e, relacionando cada objeto com um índice teríamos:
+Garantimos que a capacidade da mochila não será ultrapassada ao adicionar o objeto, entretanto ainda devemos saber se aquele objeto deve ser adicionado. Para isso, devemos pensar no segundo ponto. Para saber se a mochila fica mais valiosa com o objeto ou sem ele, precisamos comparar o valor de uma mochila que tem o objeto com o valor de uma mochila que não tem o objeto.
 
-| Nome     | Volume | Valor |Índice|
-|----------|--------|-------|------|
-| Headset  | 3      | 30    | 0    |
-| Livro    | 4      | 20    | 1    |
-| Relógio  | 2      | 30    | 2    |
-| Notebook | 7      | 50    | 3    |
-| Tablet   | 4      | 40    | 4    |
+```python
+se peso[objeto] <= M, então:
+    se valor da mochila M com objeto > valor da mochila M sem objeto:
+        retorna o valor da mochila com o objeto
+    se não:
+        retorna o valor da mochila sem o objeto
+se nao:
+    retorna o valor da mochila sem o objeto
+```
+Aproveitando o checkpoint anterior, vamos analisar se o tablet deve entrar na mochila. Para fazer a comparação precisamos do peso das duas mochilas (com o tablet e sem o tablet). 
 
-Dessa forma, se estivermos por exemplo no índice 2 da lista, estaremos fazendo a solução considerando os objetos: Headset, Livro e Relógio.
-
-Solução Recursiva
-------
-<!--
-A ideia dessa solução é implementar exatamente o que foi apresentado até agora. Para isso vamos usar os passos dados em aula para se montar funções recursivas, se você já esqueceu como ou quais são os passos, revise a [aula 2](https://ensino.hashi.pro.br/desprog/aula/2/).
+Como foi mostrado no checkpoint anterior, para montar uma mochila com o tablet, adicionamos ele em uma mochila mais "vazia". Ao adicionar o tablet, o valor da mochila também aumentará. Porém, para saber o valor total da mochila devemos saber também o valor da mochila mais "vazia" utilizada. 
 
 ??? Checkpoint
 
-Faça um pseudo-código (basicamente escrever em linguagem humana), a representação das condições dadas do problema da mochila binária.
+Pensando em maximizar o valor da mochila, podemos adicionar o tablet em qualquer mochila de peso máximo 6?
 
 ::: Gabarito
+Não, para a mochila ter valor máximo no final o tablet deve ser adicionado em uma mochila de peso máximo 6 que tenha o valor máximo para essa capacidade. 
 
-Passo 1: Entenda o que a função recebe e o que deveria fazer.
-```python
-recebe o peso total, os pesos dos itens, os valores dos itens e o ítem que quero analisar
-    a função deve retornar quais itens devem ser colocados na mochila
-```
-
-Passo 2: Adicione uma chamada recursiva ao código da função. 
-```python
-função recebe o peso total, os pesos dos ítems, os valores dos ítems e o ítem que quero analisar
-    vou rodar a função de novo
-```
-
-Passo 3: Passe para a chamada recursiva um parâmetro menor.
-```python
-função recebe o peso total, os pesos dos ítems, os valores dos ítems e o ítem que quero analisar
-    vou receber o mesmo peso, mesmos itens, mesmos valores, mas vou analisar o próximo item
-
-```
-
-Passo 4: Não simularás e terás fé.
-
-(o código é o mesmo)
-
-
-Passo 5: Você tem fé na resposta da chamada recursiva, então use-a.
-
-(essa é um pouco menos intuitiva)
-
-```python
-função recebe o peso total, os pesos dos ítems, os valores dos ítems e o ítem que quero analisar
-
-
-    se o peso do último item ultrapassar o valor máximo:
-        vou receber o mesmo peso, mesmos itens, mesmos valores, mas vou analisar o próximo item
-
-    caso o contrário:
-        calcule o valor da mochila se eu considerar o item que estou analisando agora
-        calcule o valor da mochila se eu NÃO considerar o item que estou analisando agora
-        retorne o maior valor entre eles
-```
-
-Passo 6: Isole o caso em que o parâmetro é o menor possível.
-
-```python
-função recebe o peso total, os pesos dos ítems, os valores dos ítems e o ítem que quero analisar
-
-    se o peso máximo for atingido ou todos os itens foram analisados:
-
-    se o peso do último item ultrapassar o valor máximo:
-        vou receber o mesmo peso, mesmos itens, mesmos valores, mas vou analisar o próximo item
-
-    caso o contrário:
-        calcule o valor da mochila se eu considerar o item que estou analisando agora
-        calcule o valor da mochila se eu NÃO considerar o item que estou analisando agora
-        retorne o maior valor entre eles
-```
-
-Passo 7: A solução desse caso é trivial, então calcule ela direto.
-
-```python
-função recebe o peso total, os pesos dos ítems, os valores dos ítems e o ítem que quero analisar
-
-    se o peso máximo for atingido ou todos os itens foram analisados:
-        não vou colocar o item que estou analisando agora na mochila
-
-    se o peso do último item ultrapassar o valor máximo:
-        vou receber o mesmo peso, mesmos itens, mesmos valores, mas vou analisar o próximo item
-
-    caso o contrário:
-        calcule o valor da mochila se eu considerar o item que estou analisando agora
-        calcule o valor da mochila se eu NÃO considerar o item que estou analisando agora
-        retorne o maior valor entre eles
-```
-
+Se isso ainda não ficou claro, pode ajudar pensar que após analisar o último objeto, teremos obtido a mochila final, que deve ter valor máximo. Se não adicionarmos o objeto em uma mochila com o maior valor possível, não teremos o maior valor possível na mochila final.
 :::
 
 ???
 
-Sim, é complicado, mas infelizmente vai ficar mais ainda...
+Sabendo então que a mochila mais "vazia" deverá, também, ter o maior valor possível, podemos achar esse valor através do mesmo algoritmo. E tendo esse valor, podemos calcular o valor da mochila após adicionado o objeto (nesse caso o tablet).
+
+```python
+se peso[objeto] <= M, então:
+    se (valor da mochila M - pesos[objeto]) + valores[objeto] > valor da mochila sem o objeto:
+        retorna o valor da mochila M - pesos[objeto]
+    se não:
+        retorna o valor da mochila sem o objeto
+```
+
+Agora basta descobrirmos o valor da mochila sem o objeto que está sendo analisado. Para isso iremos usar a informação de que cada objeto está relacionado com um index (se não lembra dessa informação volte para o início desse tópico).
 
 ??? Checkpoint
 
-Faça um código em c para cada um dos passos dados no checkpoint anterior.
+O algoritmo reconhece os objetos a partir dos indexes na lista de pesos e valores. Se queremos o valor máximo da mochila sem o ultimo objeto da lista, o que deve mudar nas entradas da função?
 
 ::: Gabarito
-
-Passo 1: entenda o que a função recebe e o que deveria fazer.
-```c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]);
-```
-
-Passo 2: adicione uma chamada recursiva ao código da função. 
-```c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]){
-    res_mochila_bin(???);
-};
-```
-
-Passo 3: passe para a chamada recursiva um parâmetro menor.
-```c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
-    res_mochila_bin(capacidade, n-1, pesos, valores);
-};
-```
-
-
-Passo 4: não simularás e terás fé.
-
-(o código é o mesmo)
-
-
-Passo 5: você tem fé na resposta da chamada recursiva, então use-a.
-
-(essa é um pouco menos intuitiva)
-
-```c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]){
-    if (pesos[n - 1] > W){
-        return res_mochila_bin(capacidade, n-1, pesos, valores);
-    }
-
-    else{
-        return max(
-            valores[n - 1] + res_mochila_bin(capacidade - pesos[n-1], n-1, pesos, valores),
-            res_mochila_bin(capacidade, n-1, pesos, valores)
-        );
-    }
-}
-```
-
-Passo 6: Isole o caso em que o parâmetro é o menor possível.
-
-```c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]){
-    if (n == 0 || capacidade == 0){
-
-    }
-    if (pesos[n - 1] > W){
-        return res_mochila_bin(capacidade, n-1, pesos, valores);
-    }
-
-    else{
-        return max(
-            valores[n - 1] + res_mochila_bin(capacidade - pesos[n-1], n-1, pesos, valores),
-            res_mochila_bin(capacidade, n-1, pesos, valores)
-        );
-    }
-}
-```
-
-Passo 7: a solução desse caso é trivial, então calcule ela direto.
-
-```c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]){
-    if (n == 0 || capacidade == 0){
-        return 0;
-    }
-    if (pesos[n - 1] > W){
-        return res_mochila_bin(capacidade, n-1, pesos, valores);
-    }
-
-    else{
-        return max(
-            valores[n - 1] + res_mochila_bin(capacidade - pesos[n-1], n-1, pesos, valores),
-            res_mochila_bin(capacidade, n-1, pesos, valores)
-        );
-    }
-```
-
+Para encontrar a solução de maior valor sem o ultimo objeto, basta passar uma lista menor de pesos e valores na entrada do algoritmo, de forma que o valor e peso do ultimo objeto não esteja na respectiva lista. 
 :::
 
-??? -->
+???
 
 Solução Dinâmica
 ------
@@ -340,123 +208,6 @@ Nenhum objeto terá peso menor ou igual a 0, portanto, então a primeira coluna 
 
 :preenchimento_completo
 
-<!-- ??? Checkpoint
-
-Preencha o código do caso inicial de acordo com a conclusão anterior.
-
-::: Gabarito
-
-``` c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
-    int M_binaria[capacidade][n];
-    int M_valores[capacidade][n];
-    for (int j = 0; j =< capacidade; j++) {
-        for (int i = 0; i < n; i ++) {
-            if (j == 0) {
-                M_valores[i][j] = 0;
-            }
-            // condições de escolha
-            // preencher matriz binária
-        }
-    }
-    // leitura do resultado
-}
-```
-:::
-
-??? -->
-
-<!-- Agora iremos preencher a matriz verificando se cada objeto deve ser adicionado ou não. Lembre-se que o que queremos é maximizar o valor da mochila final. Tente preencher as condições de escolha baseado nisso e nas explicações anteriores.
-
-??? Checkpoint
-
-Preencha o código referente a condição de escolha de acordo com a conclusão anterior.
-
-::: Gabarito
-
-``` c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
-    int M_binaria[capacidade][n];
-    int M_valores[capacidade][n];
-    for (int j = 0; j =< capacidade; j++) {
-        for (int i = 0; i < n; i ++) {
-            if (j == 0) {
-                M_valores[i][j] = 0;
-            }
-            if (pesos[i] > capacidade || M_valores[i-1][j] > (M_valores[i-1][j-pesos[i]] + valores[i])) {
-                M_valores[i][j] = M_valores[i-1][j]
-            } else {
-                M_valores[i][j] = M_valores[i-1][j-pesos[i]] + valores[i]
-            }
-            // preencher matriz binária
-        }
-    }
-    // leitura do resultado
-}
-```
-:::
-
-??? -->
-
-<!-- Finalmente, vamos preencher a matriz que mais interessa, a matriz binária. Para isso, basta colocar 1 se o objeto foi escolhido e 0 se ele não foi.
-
-``` c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
-    int M_binaria[capacidade][n];
-    int M_valores[capacidade][M];
-    for (int j = 0; j =< capacidade; j++) {
-        for (int i = 0; i < n; i ++) {
-            if (j == 0) {
-                M_valores[i][j] = 0;
-            }
-            if (pesos[i] > capacidade || M_valores[i-1][j] > (M_valores[i-1][j-pesos[i]] + valores[i])) {
-                M_valores[i][j] = M_valores[i-1][j]
-                M_binaria[i][j] = 0;
-            } else {
-                M_valores[i][j] = M_valores[i-1][j-pesos[i]] + valores[i]
-                M_binaria[i][j] = 1;
-            }
-        }
-    }
-    // leitura do resultado
-}
-```
-
-Chegamos no último passo, agora só precisamos exibir o resultado. Essa parte não é tão intuitiva quanto parece, para ver a solução da capacidade 10, não podemos apenas ler a coluna de número 10 da matriz binária. Quando decidimos se um objeto vai entrar ou não na mochila, não usamos a mochila de capacidade 10 com outros objetos e sim uma mochila de capacidade menor e, consequentemente, os objetos escolhidos para montar aquela mochila menor. Por isso, devemos ler o resultado considerando as mochilas de capacidades menores que foram montadas.
-
-Começaremos lendo a partir do último índice, decidimos se íamos ou não colocar ele na mochila montando a solução da capacidade máxima, portanto ele é lido na coluna da capacidade máxima. Se o último objeto foi escolhido na mochila de capacidade máxima, o penúltimo foi escolhido para uma mochila de capacidade máxima menos o peso do último objeto (pois partimos dessa mochila para montar a solução da mochila de capacidade máxima). Portanto o penúltimo objeto será lido na coluna da capacidade máxima menos o peso do último objeto. Fazendo isso até que termos lido todos os objetos teremos: 
-
-``` c
-int res_mochila_bin(int capacidade, int n, int pesos[], int valores[]) {
-    int M_binaria[capacidade][n];
-    int M_valores[capacidade][M];
-    for (int j = 0; j =< capacidade; j++) {
-        for (int i = 0; i < n; i ++) {
-            if (j == 0) {
-                M_valores[i][j] = 0;
-            }
-            if (pesos[i] > capacidade || M_valores[i-1][j] > (M_valores[i-1][j-pesos[i]] + valores[i])) {
-                M_valores[i][j] = M_valores[i-1][j]
-                M_binaria[i][j] = 0;
-            } else {
-                M_valores[i][j] = M_valores[i-1][j-pesos[i]] + valores[i]
-                M_binaria[i][j] = 1;
-            }
-        }
-    }
-    
-    coluna = capacidade;
-    for (int obj = n-1; obj >= 0; obj--) {
-        int val = matriz_binária[obj][capacidade];
-        printf("%d", val);
-
-        if (val == 1) {
-            capacidade -= pesos[obj];
-        }
-    }
-    return M_valores[capacidade][n];
-}
-``` -->
 Com isso falta apenas mais um tópico.
 
 Complexidade da Solução Dinâmica
