@@ -4,33 +4,67 @@ Mochila Binária
 O problema
 ------
 
-Você está indo viajar de avião e tem uma lista de coisas que precisa levar nessa viagem. Você levará uma *mochila* e uma *mala* que será despachada. Por uma questão de segurança, você pretende colocar o máximo de coisas de valor (monetário) na *mochila* até enchê-la, e o que sobrar será colocado na *mala*. Sua *mochila* não tem um volume infinito (óbvio), então há uma quantidade máxima de objetos que podem ser colocados nela até que ela fique cheia. Outro ponto importante é que você só tem um de cada objeto da lista.
+O problema da mochila binária é um problema de otimização combinatória em que se deseja preencher uma mochila com uma combinação de itens que possuem diferentes pesos e valores de forma que a soma que a soma de seus valores seja máxima e a soma de seus pesos não ultrapasse um certo limite (capacidade). 
+
+Pensando de uma maneira menos técnica, imagine que você está indo viajar de avião e tem uma lista de coisas que precisa levar nessa viagem. Você levará uma *mochila* e uma *mala* que será despachada. Por uma questão de segurança, você pretende colocar o máximo de coisas de valor (monetário) na *mochila* até enchê-la, e o que sobrar será colocado na *mala*. Sua *mochila* não tem um volume infinito (óbvio), então há uma quantidade máxima de objetos que podem ser colocados nela até que ela fique cheia. Outro ponto importante é que você só tem um de cada objeto da lista.
 
 Dessa forma, para organizar sua mochila da melhor maneira possível, você vai precisar saber o tamanho e o valor de cada uma das coisas que você precisa levar nessa viagem.
 
+Consedere então a lista de objetos abaixo, e que sua mochila possui **10 [unidades de volume] de capacidade**:
+
+![mochila](mochila.png)
+
+![Lista](lista_objetos.png)
+
+Pensando na Solução
+-----
+Antes de pensar em código propriamente, é importante fazer alguns exemplos "na mão". Então, para facilitar isso, vamos considerar uma outra lista de ítems:
+
+![ListaAleatoria](lista_obj.png)
+
+Dada a lista de objetos , uma possível solução (o provavelmente a mais instintiva) seria pegar os objetos de maior valor primeiro, e complementar até bater o peso máximo. (ja adiantando que essa nem sempre é a solução mais viável).
+
 ??? Checkpoint
 
-Dada a lista de objetos abaixo e que sua mochila possui **10 [unidades de volume] de capacidade**, que lógica você seguiria para colocar os objetos na mochila de forma que a soma de valores seja máxima?
+Monte uma solução baseada na lógica anterior e veja o resultado. Esta é a melhor solução? Por que?
 
-| Nome     | Volume | Valor |
-|----------|--------|-------|
-| Headset  | 3      | 30    |
-| Livro    | 4      | 20    |
-| Relógio  | 2      | 30    |
-| Notebook | 7      | 50    |
-| Tablet   | 4      | 40    |
+
 
 ::: Gabarito
-Uma lógica possível é escolher os objetos de maior valor possível até que a mochila fique cheia. Para essa lista, seriam escolhidos os item `md Notebook` seguido do `md relógio`, obtendo um peso total de *9* e um valor total de *90*. O que não necessariamente é a melhor escolha de objetos.
+Para essa lista, seriam escolhidos os item `md Travesseiro` seguido do `md Relógio`, obtendo um peso total de *10* e um valor total de *90*. 
+
+![Solução01](lista_checkpoint_errada.png)
+
+O que não é a melhor escolha de objetos, dado que é única solução possível quando se escolhe o `md Travesseiro`, o que impede de sequer considerarmos outras soluções.
 :::
 
 ???
 
-Em termos mais formais, o problema da mochila binária é um problema de otimização combinatória em que se deseja preencher uma mochila com uma combinação de itens que possuem diferentes pesos e valores de forma que a soma que a soma de seus valores seja máxima e a soma de seus pesos não ultrapasse um certo limite (capacidade).  
+??? Checkpoint 02
+
+Tente então montar a solução com o maior valor possível para a mochila em questão.
+
+
+
+::: Gabarito
+A melhor solção para essa lista seria escolher os item `md Maçã`, `md Relógio` e `md Tablet` obtendo um peso total de *9* e um valor total de *100*. 
+
+![Solução02](lista_checkpoint_certo.png)
+:::
+
+???
+
+Note que, esta solução nem sequer utiliza do `md Travesseiro`, e ainda sim obtivemos um valor maior que o anterior. E além disso você deve ter percebido que, por mais que o peso da mochila não tenha sido atingido, conseguiu-se extrair o maior valor possíveis dos ítems da lista. Isso ocorre porque **a melhor solução nem sempre é a que preenche a mochila completamente**
+
+Pensando em Código
+------
+
+Em termos de lógica de resolução, existem algumas maneiras diferentes de se encontrar a melhor mochila possível. Uma delas é por um método de tentativa e erro (que muito provavelmente foi a que você usou no *Checkpoint 02*), o que não é ruim, mas definitivamente não é a mais rápido, principalmente quando considerarmos problemas em que a lista de ítens é extremamente extensa.
+
+Entao vamos começar a pensar em uma estrutura um pouco mais voltada à código de uma função que calcule isso para você. E para que essa função possa ser montada, precisamos conhecer quais são suas entradas e saídas.
+
 
 ??? Checkpoint
-
-Para que um problema da mochila seja solucionável, é necessário conhecer certos dados sobre a mochila e os itens que podem preenchê-la.
 
 Com base no exemplo dado anteriormente, quais seriam as **entradas** necessárias para solucionar um problema da mochila binária e possibilitar sua solução. Qual o formato da **saída** que é esperado?
 
@@ -45,6 +79,8 @@ Como *saída* É esperado uma lista que informe para cada item se ele deve ser c
 :::
 
 ???
+
+Pensando em termos mais técnicos:
 
 A `md capacidade da mochila` é a quantidade máxima de um certo fator limitante que é definido pelo problema. Para o exemplo da mochila literal dado acima, a capacidade era o volume interno máximo que a mochila possuía. Dependendo do problema, nesse mesmo exemplo a capacidade também poderia ser o peso máximo suportado pela mochila.
 
