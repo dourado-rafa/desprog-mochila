@@ -168,17 +168,27 @@ se peso[objeto] <= M, então:
         retorna o valor da mochila sem o objeto
 ```
 
-Agora basta descobrirmos o valor da mochila sem o objeto que está sendo analisado. Para isso iremos usar a informação de que cada objeto está relacionado com um index (se não lembra dessa informação volte para o início desse tópico).
+Agora, para finalizar a escolha, basta descobrir o valor máximo da mochila sem o objeto que está sendo analisado. Com isso e considerando o que já foi preenchido do pseudo-código, você já deve ter percebido que o algoritmo utiliza soluções de sub-problemas menores, mochilas de menores capacidades ou com menos objetos possíveis. Dessa forma, já podemos revelar que uma das formas de resolver o problema da mochila binária é recursiva.
 
 ??? Checkpoint
 
-O algoritmo reconhece os objetos a partir dos indexes na lista de pesos e valores. Se queremos o valor máximo da mochila sem o ultimo objeto da lista, o que deve mudar nas entradas da função?
+Pensando na solução recursiva e nas entradas do algoritmo, o que precisaria ser alterado na(s) entrada(s) do algoritmo para obter a mochila de máximo valor sem considerar um dos objetos? Caso não lembre, os objetos estão relacionados com os indexes das listas de pesos e valores.
 
 ::: Gabarito
-Para encontrar a solução de maior valor sem o ultimo objeto, basta passar uma lista menor de pesos e valores na entrada do algoritmo, de forma que o valor e peso do ultimo objeto não esteja na respectiva lista. 
+Para encontrar a solução da mochila sem um objeto, basta passar uma lista menor de pesos e valores como entrada do algoritmo, de forma que o valor e peso do objeto que não deve estar na mochila não estejam nas listas.
 :::
 
 ???
+
+Sabendo disso, podemos terminar a lógica de escolha dos objetos. Lembrando que na solução recursiva sempre solucionamos a ultima iteração (nesse caso colocar ou não o último objeto) assumindo que temos a solução anterior (já foi tomada a decisão de colocar ou não todos os outros objetos).
+
+```python
+se peso[objeto] <= M, então:
+    se (valor da mochila M - pesos[objeto]) + valores[objeto] > valor da mochila M (pesos, valores, n-1, M):
+        retorna o valor da mochila M - pesos[objeto]
+    se não:
+        retorna o valor da mochila sem o objeto
+```
 
 Solução Dinâmica
 ------
