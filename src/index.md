@@ -4,69 +4,53 @@ Mochila Binária
 O problema
 ------
 
-O problema da mochila binária é um problema de otimização combinatória em que se deseja preencher uma mochila com uma combinação de itens que possuem diferentes pesos e valores de forma que a soma que a soma de seus valores seja máxima e a soma de seus pesos não ultrapasse um certo limite (capacidade). 
+O problema da mochila binária é um problema de otimização combinatória em que se deseja preencher uma mochila com uma combinação de itens que possuem diferentes pesos e valores de forma que a soma de seus valores seja máxima e a soma de seus pesos não ultrapasse um certo limite (capacidade). 
 
 Pensando de uma maneira menos técnica, imagine que você está indo viajar de avião e tem uma lista de coisas que precisa levar nessa viagem. Você levará uma *mochila* e uma *mala* que será despachada. Por uma questão de segurança, você pretende colocar o máximo de coisas de valor (monetário) na *mochila* até enchê-la, e o que sobrar será colocado na *mala*. Sua *mochila* não tem um volume infinito (óbvio), então há uma quantidade máxima de objetos que podem ser colocados nela até que ela fique cheia. Outro ponto importante é que você só tem um de cada objeto da lista.
 
 Dessa forma, para organizar sua mochila da melhor maneira possível, você vai precisar saber o tamanho e o valor de cada uma das coisas que você precisa levar nessa viagem.
 
-Consedere então a lista de objetos abaixo, e que sua mochila possui **10 [unidades de volume] de capacidade**:
+Antes de pensar em código propriamente, é importante fazer pelo menos um exemplo "na mão". Vamos pegar um caso mais fácil agora no começo. Então, vamos considerar que sua mochila possui **10 [unidades de volume] de capacidade** e a pequena lista de ítems abaixo:
 
-![mochila](mochila.png)
+![Lista de Objetos Pequena e Mochila](lista_pequena_com_mochila.png)
 
-![Lista](lista_objetos.png)
-
-Pensando na Solução
------
-Antes de pensar em código propriamente, é importante fazer alguns exemplos "na mão". Então, para facilitar isso, vamos considerar uma outra lista de ítems:
-
-![ListaAleatoria](lista_obj.png)
-
-Dada a lista de objetos , uma possível solução (o provavelmente a mais instintiva) seria pegar os objetos de maior valor primeiro, e complementar até bater o peso máximo. (ja adiantando que essa nem sempre é a solução mais viável).
+Dada a lista de objetos, uma possível solução (e provavelmente a mais instintiva) seria pegar os objetos de maior valor primeiro, e complementar até bater o peso máximo. (ja adiantando que essa nem sempre é a solução mais viável).
 
 ??? Checkpoint
 
 Monte uma solução baseada na lógica anterior e veja o resultado. Esta é a melhor solução? Por que?
 
-
-
 ::: Gabarito
-Para essa lista, seriam escolhidos os item `md Travesseiro` seguido do `md Relógio`, obtendo um peso total de *10* e um valor total de *90*. 
+Para essa lista, seriam escolhidos os item `md Travesseiro` seguido do `md Carregador`, obtendo um peso total de *10* e um valor total de *80*. 
 
-![Solução01](lista_checkpoint_errada.png)
+![Lista Pequena com Solução Errada](lista_pequena_solucao_errada.png)
 
-O que não é a melhor escolha de objetos, dado que é única solução possível quando se escolhe o `md Travesseiro`, o que impede de sequer considerarmos outras soluções.
+O que não é a melhor escolha de objetos e a escolha do `md Travesseiro` nos impede de sequer considerarmos outras soluções.
 :::
 
 ???
-
-??? Checkpoint 02
-
-Tente então montar a solução com o maior valor possível para a mochila em questão.
-
-
-
-::: Gabarito
-A melhor solção para essa lista seria escolher os item `md Maçã`, `md Relógio` e `md Tablet` obtendo um peso total de *9* e um valor total de *100*. 
-
-![Solução02](lista_checkpoint_certo.png)
-:::
-
-???
-
-Note que, esta solução nem sequer utiliza do `md Travesseiro`, e ainda sim obtivemos um valor maior que o anterior. E além disso você deve ter percebido que, por mais que o peso da mochila não tenha sido atingido, conseguiu-se extrair o maior valor possíveis dos ítems da lista. Isso ocorre porque **a melhor solução nem sempre é a que preenche a mochila completamente**
-
-Pensando em Código
-------
-
-Em termos de lógica de resolução, existem algumas maneiras diferentes de se encontrar a melhor mochila possível. Uma delas é por um método de tentativa e erro (que muito provavelmente foi a que você usou no *Checkpoint 02*), o que não é ruim, mas definitivamente não é a mais rápido, principalmente quando considerarmos problemas em que a lista de ítens é extremamente extensa.
-
-Entao vamos começar a pensar em uma estrutura um pouco mais voltada à código de uma função que calcule isso para você. E para que essa função possa ser montada, precisamos conhecer quais são suas entradas e saídas.
-
 
 ??? Checkpoint
 
-Com base no exemplo dado anteriormente, quais seriam as **entradas** necessárias para solucionar um problema da mochila binária e possibilitar sua solução. Qual o formato da **saída** que é esperado?
+Tente então montar a solução com o maior valor possível para a mochila em questão.
+
+::: Gabarito
+A melhor solção para essa lista seria escolher os item `md Controle`, `md Carregador` e `md Garrafa` obtendo um peso total de *9* e um valor total de *100*. 
+
+![Lista Pequena com Solução Certa](lista_pequena_solucao_certa.png)
+:::
+
+???
+
+Note que, esta solução nem sequer utiliza o `md Travesseiro`, e ainda sim obtivemos um valor maior que o anterior. Além disso, você deve ter percebido que, por mais que o peso da mochila não tenha sido atingido, conseguiu-se extrair o maior valor possíveis dos ítems da lista. Isso ocorre porque **a melhor solução nem sempre é a que preenche a mochila completamente**
+
+Em termos de lógica de resolução, existem algumas maneiras diferentes de se encontrar a melhor mochila possível. Uma delas é por um método de tentativa e erro (que muito provavelmente foi a que você usou no Checkpoint anterior), o que não é ruim para casos pequenos como aquele, mas definitivamente não é a mais rápido, principalmente quando considerarmos problemas em que a lista de ítens é extremamente extensa.
+
+Entao vamos começar a pensar em uma estrutura um pouco mais voltada à código de uma função que resolva o problema. E para que essa função possa ser montada, precisamos conhecer quais são suas entradas e saídas.
+
+??? Checkpoint
+
+Com base no exemplo dado anteriormente, quais seriam as **entradas** necessárias para possibilitar a solução de um problema da mochila binária. Qual o formato da **saída** que é esperado?
 
 ::: Gabarito
 Como *entradas* é necessário possuir:
@@ -91,16 +75,35 @@ O `md valor do item` é fator de interesse que cada item possui e que se deseja 
 O Algoritmo
 ------
 
-Para a aproximar a notação usada nesse handout com a notação encontrada nos algoritmos utilizaremos a seguinte notação:
+A partir daqui, iremos mudar a lista de objetos para uma lista um pouco maior:
+
+![Lista de Objetos com Mochila](lista_objetos_com_mochila.png)
+
+Outra coisa que precisaremos fazer é simplificar um pouco a saída da função: **o algoritmo retornará o valor máximo encontrado para a mochila**. 
+No caso do exemplo que você resolveu, o algoritmo retornaria *100*. Sei que acabei de dizer que a saída da função é uma lista de `md 1` e `md 0`, mas isso facilitará a compreeensão da solução e, após isso, modificar para encontrarmos essa lista não seria tão complicado.
+
+??? Checkpoint
+Agora que sabemos as entradas necessárias e a saída que queremos, monte o cabeçalho da função. 
+
+Lembre-se que para trabalhar com listas em *C* é necessário saber o tamanho dessas listas.
+
+::: Gabarito
+```c
+int mochila_binaria(int M, int n, int pesos[], int valores[]);
+```
+Sendo:
 
 * **M**: capacidade da mochila
 * **n**: número de objetos na lista
 * **pesos**: lista que contem os pesos de cada objeto
 * **valores**: lista que contém os valores de cada objeto 
+:::
+
+???
 
 A ordem da lista de pesos e valores deve ser a mesma, ou seja, se o peso do Headset está na primeira posição da lista de pesos, o valor dele também deve estar na primeira posição da lista de valores. Perceba que isso significa que cada índice estará associado a um objeto. Tenha isso em mente, pois vai ser muito importante mais pra frente.
 
-Ordenando a lista do exemplo inicial teríamos:
+Ordenando a lista do nosso problema teríamos:
 
 ![Lista com índices](lista_objetos_indices.png)
 
