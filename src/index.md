@@ -231,17 +231,7 @@ se peso[objeto] menor ou igual a M, então:
         mochila_binaria(M, n-1, pesos, valores)
 ```
 
-??? Checkpoint
-
-Apenas com o pseudo-código, tente determinar a complexidade da solução recursiva;
-
-::: Gabarito
-
-Para chegarmos na solução, teremos sempre que comparar o valor da mochila com e sem o ítem em questão, e isso é feito para todos os ítems da mochila, logo a complexidade dessa função é $O(2^n)$
-
-:::
-
-???
+Apenas com o pseudo-código, verifica-se que para chegarmos na solução, teremos sempre que comparar o valor da mochila com e sem o ítem em questão, e isso é feito para todos os ítems da mochila, logo a complexidade dessa função é $O(2^n)$
 
 Agora sim, a solução recursiva está finalizada! Mas será que ela é a melhor?
 
