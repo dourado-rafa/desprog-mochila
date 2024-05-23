@@ -101,7 +101,7 @@ Sendo:
 
 ???
 
-A ordem da lista de pesos e valores deve ser a mesma, ou seja, se o peso do Headset está na primeira posição da lista de pesos, o valor dele também deve estar na primeira posição da lista de valores. Perceba que isso significa que cada índice estará associado a um objeto, o primeiro objeto terá índice 0, o segundo índice 1 [...] o último objeto terá índice n-1 pois a lista tem tamanho n. Tenha isso em mente, pois vai ser muito importante mais pra frente.
+A ordem da lista de pesos e valores deve ser a mesma, ou seja, se o peso do Headset está na primeira posição da lista de pesos, o valor dele também deve estar na primeira posição da lista de valores. Perceba que isso significa que cada índice estará associado a um objeto, o primeiro objeto terá índice 0, o segundo índice 1, [...], por fim, o último objeto terá índice n-1 pois a lista tem tamanho n. Tenha isso em mente, pois vai ser muito importante mais pra frente.
 
 Ordenando a lista do nosso problema teríamos:
 
@@ -124,15 +124,15 @@ Além disso, devemos ter o cuidado de adicionar o objeto em uma mochila que tenh
 
 ??? Checkpoint
 
-Partindo do problema inicial, se quisermos adicionar o tablet (peso 4) na mochila (capacidade 10), qual deve ser o peso máximo da mochila antes de colocarmos o tablet?
+Partindo do problema inicial, se quisermos adicionar o `md tablet` (peso 4) na mochila (capacidade 10), qual deve ser o peso máximo ocupado da mochila antes de colocarmos o `md tablet`?
 
 ::: Gabarito
-O peso máximo da mochila antes do tablet ser adicionado deve ser a capacidade máxima menos o peso do objeto. Nesse caso $10-4 = 6$. Caso fosse maior que isso, a capacidade da mochila seria ultrapassada ao colocarmos o tablet.
+O peso máximo da mochila antes do `md tablet` ser adicionado deve ser a capacidade máxima menos o peso do objeto. Nesse caso $10-4 = 6$. Caso fosse maior que isso, a capacidade da mochila seria ultrapassada ao colocarmos o `md tablet`.
 :::
 
 ???
 
-Generalizando para qualquer objeto, se a mochila tem capacidade $M$ o objeto só pode ser adicionado em uma mochila de capacidade $M - peso do objeto$.
+Generalizando para qualquer objeto, se a mochila tem capacidade $M$ o objeto só pode ser adicionado em uma mochila de capacidade $M -$ peso do objeto.
 
 Garantimos que a capacidade da mochila não será ultrapassada ao adicionar o objeto, entretanto ainda devemos saber se aquele objeto deve ser adicionado. Para isso, devemos pensar no segundo ponto. Para saber se a mochila fica mais valiosa com o objeto ou sem ele, precisamos comparar o valor de uma mochila que tem o objeto com o valor de uma mochila que não tem o objeto.
 
@@ -145,16 +145,16 @@ se peso do objeto menor ou igual a M, então:
 se nao:
     retorna o valor da mochila sem o objeto
 ```
-Aproveitando o checkpoint anterior, vamos analisar se o tablet deve entrar na mochila. Para fazer a comparação precisamos do peso das duas mochilas (com o tablet e sem o tablet). 
+Aproveitando o checkpoint anterior, vamos analisar se o tablet deve entrar na mochila. Para fazer a comparação precisamos do peso das duas mochilas (com o `md tablet` e sem o `md tablet`). 
 
-Como foi mostrado no checkpoint anterior, para montar uma mochila com o tablet, adicionamos ele em uma mochila mais "vazia". Ao adicionar o tablet, o valor da mochila também aumentará. Porém, para saber o valor total da mochila devemos saber também o valor da mochila mais "vazia" utilizada.
+Como foi mostrado no checkpoint anterior, para montar uma mochila com o `md tablet`, adicionamos ele em uma mochila mais "vazia". Ao adicionar o `md tablet`, o valor da mochila também aumentará. Porém, para saber o valor total da mochila devemos saber também o valor da mochila mais "vazia" utilizada.
 
 ??? Checkpoint
 
-Pensando em maximizar o valor da mochila, podemos adicionar o tablet em qualquer mochila de peso máximo 6?
+Pensando em maximizar o valor da mochila, podemos adicionar o `md tablet` em qualquer mochila de peso máximo $6$?
 
 ::: Gabarito
-Não, para a mochila ter valor máximo no final o tablet deve ser adicionado em uma mochila de peso máximo 6 que tenha o valor máximo para essa capacidade. 
+Não, para a mochila ter valor máximo no final o `md tablet` deve ser adicionado em uma mochila de peso máximo $6$ que tenha o **valor máximo para essa capacidade**. 
 
 Se isso ainda não ficou claro, pode ajudar pensar que após analisar o último objeto, teremos obtido a mochila final, que deve ter valor máximo. Se não adicionarmos o objeto em uma mochila com o maior valor possível, não teremos o maior valor possível na mochila final.
 :::
@@ -165,7 +165,7 @@ Sabendo então que a mochila mais "vazia" deverá, também, ter o maior valor po
 
 ??? Checkpoint
 
-Agora que já sabemos como encontrar o valor da mochila mais "vazia" ( suponha que esse valor seja $V_m$ ) qual será o valor da mochila após adicionar o tablet (peso = 4, valor = 40)?
+Agora que já sabemos como encontrar o valor da mochila mais "vazia" ( suponha que esse valor seja $V_m$ ) qual será o valor da mochila após adicionar o tablet (peso 4 e valor 40)?
 
 ::: Gabarito
 Ao adicionar algum objeto na mochila, o novo valor dela será o valor antigo mais o valor do objeto adicionado. Logo, nesse caso o novo valor seria $V_m + 40$.
@@ -179,8 +179,10 @@ se peso do objeto menor ou igual a M, então:
         retorna valor da mochila M_m + valor do objeto
     senão:
         retorna valor da mochila M sem o objeto
+se nao:
+    retorna o valor da mochila sem o objeto
 ```
-Agora só precisamos descobrir como achar o valor de uma mochila sem um dos objetos. Perceba que, além do valor da mochila M sem o objeto, o valor que pegaremos da mochila $M_m$ também é sem o objeto. Afinal, no problema da mochila binária só temos uma unidade de cada objeto e se esse objeto ainda vai ser adicionado na mochila, ele não pode estar na mochila $M_m$. Para terminar o pseudo-código, tem mais uma coisa que devemos reparar.
+Agora só precisamos descobrir como achar o valor de uma mochila sem um dos objetos. Perceba que, além do valor da mochila $M$ sem o objeto, o valor que pegaremos da mochila $M_m$ também é sem o objeto. Afinal, no problema da mochila binária só temos uma unidade de cada objeto e se esse objeto ainda vai ser adicionado na mochila, ele não pode estar na mochila $M_m$. Para terminar o pseudo-código, tem mais uma coisa que devemos reparar.
 
 Como você já deve estar percebendo, o algoritmo utiliza de soluções de sub-problemas (mochilas de menores capacidade ou com menor quantidade de objetos) para resolver o problema final. Dessa forma, já podemos revelar uma das formas de resolver o problema da mochila binária: recursiva. Isso vai ajudar muito a construir o resto do código.
 
@@ -191,7 +193,7 @@ Caso você não lembre, em um algoritmo recursivo, resolvemos apenas o ultimo pa
 Agora vamos retomar algo que foi falado lá em cima: cada objeto está associado a um índice, se queremos a mochila mais valiosa sem o último objeto da lista, o que precisamos mudar nas entradas da função recursiva?
 
 ::: Gabarito
-Para desconsiderar o objeto, é só não considerar o índice relacionado a ele, ou seja, não utilizar o último índice da lista de pesos e o último índice da lista de valores. Para isso é só passar para o algoritmo o tamanho n-1 ao invés vez de n.
+Para desconsiderar o objeto, é só não considerar o índice relacionado a ele, ou seja, não utilizar o último índice da lista de pesos e o último índice da lista de valores. Para isso é só passar para o algoritmo o tamanho $n-1$ ao invés vez de $n$.
 :::
 
 ???
@@ -199,39 +201,44 @@ Para desconsiderar o objeto, é só não considerar o índice relacionado a ele,
 Agora que já sabemos que é uma função recursiva e que estamos resolvendo o problema apenas do último objeto, podemos utilizar o cabeçalho da função e acessar o valor do objeto na lista de valores e o peso do objeto na lista de pesos utilizando o índice correto:
 
 ```python
-se peso[objeto] menor ou igual a M, então:
+se peso[n-1] menor ou igual a M, então:
     se mochila_binaria(M - pesos[n-1], n-1, pesos, valores) + valores[n-1] > mochila_binaria(M, n-1, pesos, valores):
         retorna mochila_binaria(M - pesos[n-1], n-1, pesos, valores) + valores[n-1]
     se não:
-        mochila_binaria(M, n-1, pesos, valores)
+        retorna mochila_binaria(M, n-1, pesos, valores)
+se nao:
+    retorna mochila_binaria(M, n-1, pesos, valores)
 ```
 
 Por fim, como é uma função recursiva, iremos precisar de uma caso base.
 
 ??? Checkpoint
 
-Vamos pensar na menor mochila possível, uma com capacidade 0. Qual seria o valor maximo dessa mochila? E se a lista de objetos possíveis estiver vazia, qual o valor máximo da mochila?
+Vamos pensar na menor mochila possível, uma com capacidade $0$. Qual seria o valor maximo dessa mochila? E se a lista de objetos possíveis estiver vazia, qual o valor máximo da mochila?
 
 ::: Gabarito
-Nos dois casos, $n = 0$ e $M = 0$, o valor máximo da mochila será 0. 
+Nos dois casos, $n = 0$ e $M = 0$, o valor máximo da mochila será $0$. 
 
-Se a capacidade da mochila for 0, qualquer objeto terá peso maior que a capacidade e não poderá ser adicionado. E se a lista de objetos for vazia, não temos nenhum objeto para adicionar na mochila.
+Se a capacidade da mochila for $0$, qualquer objeto terá peso maior que a capacidade e não poderá ser adicionado. E se a lista de objetos for vazia, não temos nenhum objeto para adicionar na mochila.
 :::
 
 ???
 
 ```python
-se n = 0 ou M = 0:
+se n igual a 0 ou M igual a 0, então:
     retorna 0
 
-se peso[objeto] menor ou igual a M, então:
+se não e peso[objeto] menor ou igual a M, então:
     se mochila_binaria(M - pesos[n-1], n-1, pesos, valores) + valores[n-1] > mochila_binaria(M, n-1, pesos, valores):
         retorna mochila_binaria(M - pesos[n-1], n-1, pesos, valores) + valores[n-1]
     se não:
         mochila_binaria(M, n-1, pesos, valores)
+se nao:
+    retorna mochila_binaria(M, n-1, pesos, valores)
 ```
 
 Apenas com o pseudo-código, verifica-se que para chegarmos na solução, teremos sempre que comparar o valor da mochila com e sem o ítem em questão, e isso é feito para todos os ítems da mochila, logo a complexidade dessa função é $O(2^n)$
+
 
 Agora sim, a solução recursiva está finalizada! Mas será que ela é a melhor?
 
@@ -242,7 +249,7 @@ Vimos como resolver o problema da mochila binária de forma recursiva, entretant
 
 Para melhorar essa complexidade podemos utilizar o fato da mochila binária ser resolvida por meio da solução de subproblemas menores. Esse fato nos permite utilizar uma solução dinâmica para minizar os cálculos dos subproblemas.
 
- Em vez de calcular várias vezes o valor das mochilas menores ou com menos objetos, podemos preencher uma matriz com esses valores e apenas acessar quando necessário. Essa matriz terá os valores de todos os subproblemas, ou seja o valor máximo da mochila de capacidades 0 até M e considerando de 0 a n objetos. 
+ Em vez de calcular várias vezes o valor das mochilas menores ou com menos objetos, podemos preencher uma matriz com esses valores e apenas acessar quando necessário. Essa matriz terá os valores de todos os subproblemas, ou seja o valor máximo da mochila de capacidades $0$ até $M$ e considerando de $0$ a $n$ objetos. 
 
 ??? Checkpoint
 
@@ -262,25 +269,15 @@ Assim, quando for necessário comparar duas mochilas menores para calcular uma m
 
 Agora, vamos entender a lógica de preenchimento dessa matriz. A lógica de escolha de cada mochila é bem similar a do algoritmo recursivo, mas a estrutura do algoritmo em si é um pouco diferente. 
 
-??? Checkpoint
-
 Como vamos preencher a matriz com mochilas menores até chegar na desejada considerando cada vez mais objetos na lista, podemos fazer esse preenchimento por meio de dois loops aninhados (um dentro do outro).
 
-Como já vimos, para resolver uma mochila de capacidade $M$ utilizando uma lista de $n$ objetos é preciso conhecer duas mochilas menores (capacidade $\leq M$) que foram calculadas utilizando uma sublista de $n-1$ objetos.
-
-Sabendo disso, qual deve ser a ordem dos loops aninhados para ser possível o preenchimento da matriz?
-
-::: Gabarito
-Como precisamos garantir que, quando formos calcular uma mochila, todas as mochilas menores já foram calculadas, então precisamos calcular as mochilas de $0$ á $M$ para cada sublista que considera de $0$ à $n$ objetos. 
+Como apenas precisamos garantir que, quando formos calcular uma mochila, todas as mochilas menores que utilizam uma sublista menor já foram calculadas, a ordem desses loops não importam muito, contanto que ambos sejam em ordem crescente. Para facilitar o entendimento iremos preencher cada mochila de capacidade menor ou igual a $M$ para cada sublista de objetos que sejam menor ou igual a $n$, dessa forma:
 
 ``` python
-para cada i menor ou igual a n:
-    para cada m menor ou igual a M:
+para cada i menor ou igual a n, faça:
+    para cada m menor ou igual a M, faça:
         // codigo de preenchimento da matriz[i][m] com a melhor mochila
 ```
-:::
-
-???
 
 Agora a matriz será preenchida na ordem correta, mas para que as comparações possam ser feitas ainda precisamos de um caso base.
 
@@ -292,8 +289,8 @@ Podemos usar o mesmo caso base da função recursiva?
 Sim. O caso base vem da lógica de que uma mochila com 0 de capacidade não suporta nenhum objeto, então tem valor 0. Assim como, se não temos nenhum objeto possível para colocar na mochila, ela terá valor 0 pois não terá nenhum objeto dentro. E isso continua sendo verdade na solução dinâmica. 
 
 ```python
-para cada i menor ou igual a n:
-    para cada m menor ou igual a M:
+para cada i menor ou igual a n, faça:
+    para cada m menor ou igual a M, faça:
         se i igual a 0 ou m igual a 0, então:
             matriz[i][m] = 0
         se não:
@@ -311,12 +308,15 @@ Assim, obtemos a matriz preenchida dessa forma:
 Se não estivermos no caso base, preencheremos a matriz utilizando a mesma lógica da solução recursiva.
 
 ```python
-para cada i menor ou igual a n:
-    para cada m menor ou igual a M:
+para cada i menor ou igual a n, faça:
+    para cada m menor ou igual a M, faça:
         se i igual a 0 ou m igual a 0, então:
             matriz[n][M] = 0
-        se não se valor da mochila com o objeto > valor da mochila sem o objeto, então:
-            matriz[n][M] = valor da mochila M com o objeto
+        se não e peso[objeto] menor ou igual a m, então:
+            se não se valor da mochila com o objeto > valor da mochila sem o objeto, então:
+                matriz[n][M] = valor da mochila M com o objeto
+            se não:
+                matriz[n][M] = valor da mochila sem o objeto
         se não:
             matriz[n][M] = valor da mochila sem o objeto
 ```
@@ -330,7 +330,7 @@ Vale ressaltar que, nesse algoritmo, a posição atual na matriz em relação a 
 * **listas de pesos e valores**: $i-1$ -> ultimo objeto da sublista; $i-2$ -> penúltimo objeto da sublista
 
 ::: Gabarito
-O valor da mochila com o objeto será o valor da mochila menor que está em $matriz[i-1][m - pesos[i]]$ mais o valor do objeto $valor[i-1]$
+O valor da mochila com o objeto será o valor da mochila menor que está em $matriz[i-1][m - pesos[i-1]]$ mais o valor do objeto $valor[i-1]$
 :::
 
 ???
@@ -340,7 +340,7 @@ O valor da mochila com o objeto será o valor da mochila menor que está em $mat
 E o valor da mochila sem o objeto?
 
 ::: Gabarito
-O valor da mochila sem o objeto será o valor da mochila apenas considerando os objetos anteriores $matriz[i-1][m]$
+O valor da mochila sem o objeto será o valor da mochila de mesma capacidade, mas considerando apenas os objetos anteriores $matriz[i-1][m]$
 :::
 
 ???
@@ -348,12 +348,15 @@ O valor da mochila sem o objeto será o valor da mochila apenas considerando os 
 Assim, o pseudo-código da solução dinâmica ficaria assim:
 
 ```python
-para todo i menor ou igual a n:
-    para todo m menor ou igual a M:
+para cada i menor ou igual a n, faça:
+    para cada m menor ou igual a M, faça:
         se n igual a 0 ou M igual a 0, então:
             matriz[i][m] = 0
-        se não e matriz[n-1][m - pesos[i-1]] + valores[i-1] maior que matriz[i-1][m], então:
-            matriz[i][m] = matriz[i-1][m - pesos[i-1]] + valores[i-1]
+        se não e peso[i-1] menor ou igual a m, então:
+            se não e matriz[n-1][m - pesos[i-1]] + valores[i-1] maior que matriz[i-1][m], então:
+                matriz[i][m] = matriz[i-1][m - pesos[i-1]] + valores[i-1]
+            se não:
+                matriz[i][m] = matriz[i-1][m]
         se não:
             matriz[i][m] = matriz[i-1][m]
 ```
@@ -386,7 +389,7 @@ Considerando o pseudo-código mostrado anteriomente, tente preenchicher a matriz
 Dessa vez, o peso do `md livro` (peso 4) cabe na mochila, então vamos comparar com o resultado de uma mochila menor mais o `md livro` com a mochila de mesma capacidade da linha anterior.
 
 ::: Gabarito [passo 2]
-A melhor mochila que cabe o `md livro` é a mochila de capacidade $6-4=2$. O valor da mochila montada seria de $0+20=20$ que é pior que o valor da mochila da linha superior (valor 30), então repetimos o conteúdo da mochila de capacidade $m$ da linha anterior (matriz[1][6]).
+A melhor mochila que cabe o `md livro` é a mochila de capacidade $6-4=2$. O valor da mochila montada seria de $0+20=20$ que é pior que o valor da mochila da linha superior (valor 30), então repetimos o conteúdo da mochila de capacidade $m$ da linha anterior (matriz[i-1][m]).
 
 :matriz_2_6_preenchimento
 :::
@@ -404,12 +407,14 @@ Considerando o pseudo-código mostrado anteriomente, tente preenchicher a matriz
 ::: Gabarito
 Novamente, o peso do `md livro` (peso 4) cabe na mochila, então vamos comparar com o resultado de uma mochila menor mais o `md livro` com a mochila de mesma capacidade da linha anterior.
 
-A melhor mochila que cabe o `md livro` é a mochila de capacidade $7-4=2$. O valor da mochila montada seria de $30+20=50$ que é malhor que o valor da mochila da linha superior (valor 30), então vamos colocar esse resultado na mochila que estamos calculando (matriz[2][7]).
+A melhor mochila que cabe o `md livro` é a mochila de capacidade $7-4=2$. O valor da mochila montada seria de $30+20=50$ que é malhor que o valor da mochila da linha superior (valor 30), então vamos colocar esse resultado na mochila que estamos calculando (matriz[i][m]).
 
 :matriz_2_7_preenchimento
 :::
 
 ???
+
+Não temos esse caso nesse exemplo, mas ainda assim não podemos esquecer da condição de que se o peso do objeto for maior que a capacidade da mochila, não podemos adicioná-lo:
 
 Agora que já vimos todos os possíveis casos de escolha, verifique seu entendimento acompanhando o preenchimento completo da matriz.
 
@@ -419,74 +424,19 @@ Essa animação é realmente extensa. Se julgar que já entendeu o procedimento 
 
 :preenchimento_completo
 
-Não temos esse caso nesse exemplo, mas ainda assim não podemos esquecer da condição de que se o peso do objeto for maior que a capacidade da mochila, não podemos adicioná-lo:
-
-```python
-para todo i menor que n:
-    para todo j menor que M:
-        se n igual a 0 ou M igual a 0:
-            matriz[n][M] = 0
-        se não e pesos[n] > M:
-            matriz[n][M] = matriz[n-1][M]
-        se não e matriz[n-1][M - pesos[n]] + valores[n]> matriz[n-1][M]:
-            matriz[n][M] = matriz[n-1][M - pesos[n]] + valores[n]
-        se não:
-            matriz[n][M] = matriz[n-1][M]
-```
-
 ??? Checkpoint
 
 Apenas com o pseudo-código, tente determinar a complexidade da solução dinâmica da mesma maneira que foi feito com a recursiva;
 
 ::: Gabarito
-
 Teremos a solução do algoritmo definida apenas quando preenchermos a matriz, o que é feito em um looping de M (valor da capacidade máxima) com um looping interno de n (número de objetos). O que resulta em uma complexidade de  $O(n\cdot M)$.
-
 :::
 
 ???
 
-Agora sim o código está finalizado. Agora só falta mais um tópico.
+Agora sim o o entendimento do algoritmo está finalizado, então só falta mais um tópico.
 
 Comparação
 ------
 
 Comparando a complexidade dos dois algoritmos apresentados para resolver o problema da mochila binária, é possível observar que o algoritmo de programação dinâmica possui uma complexidade melhor que o algoritmo recursivo, $O(n\cdot M)$ e $O(2^n)$. Isso acontece porque o algoritmo dinâmico apenas preencher sua matriz, enquanto o algoritmo recursivo precisa constantemente comparar duas mochilas que não estão calculadas (e para calculá-las, comparar mochilas menores que também não estão calculadas...), tornando sua complexidade exponencial.
-
-<!--
-
-E tendo esse valor, podemos calcular o valor da mochila após adicionado o objeto (nesse caso o tablet).
-
-```python
-se peso do objeto menor ou igual a M, então:
-    se mochila_binaria(M - pesos[objeto], n, pesos, valores) + valores[objeto] > valor da mochila sem o objeto
-        retorna mochila_binaria(M - pesos[objeto], n, pesos, valores) + valores[objeto]
-    se não:
-        retorna o valor da mochila sem o objeto
-```
-
-Agora, para finalizar a escolha, basta descobrir o valor máximo da mochila sem o objeto que está sendo analisado. Com isso e considerando o que já foi preenchido do pseudo-código, você já deve ter percebido que o algoritmo utiliza soluções de sub-problemas menores, mochilas de menores capacidades ou com menos objetos possíveis. Dessa forma, já podemos revelar que uma das formas de resolver o problema da mochila binária é recursiva.
-
-??? Checkpoint
-
-Pensando na solução recursiva e nas entradas do algoritmo, o que precisaria ser alterado na(s) entrada(s) do algoritmo para obter a mochila de máximo valor sem considerar um dos objetos? Caso não lembre, os objetos estão relacionados com os indexes das listas de pesos e valores.
-
-::: Gabarito
-Para encontrar a solução da mochila sem um objeto, basta passar uma lista menor de pesos e valores como entrada do algoritmo, de forma que o valor e peso do objeto que não deve estar na mochila não estejam nas listas.
-:::
-
-???
-
-Sabendo disso, podemos terminar a lógica de escolha dos objetos. Lembrando que na solução recursiva sempre solucionamos a ultima iteração (nesse caso colocar ou não o último objeto) assumindo que temos a solução anterior (já foi tomada a decisão de colocar ou não todos os outros objetos).
-
-```python
-se peso[objeto] menor ou igual a M, então:
-    se mochila_binaria(M - pesos[n], n-1, pesos, valores) + valores[n] > mochila_binaria(M, n-1, pesos, valores):
-        retorna mochila_binaria(M - pesos[n], n-1, pesos, valores) + valores[n]
-    se não:
-        mochila_binaria(M, n-1, pesos, valores)
-```
-
-Lembrando que o último objeto estará no último índice da lista.
-
--->
