@@ -231,6 +231,18 @@ se peso[objeto] menor ou igual a M, então:
         mochila_binaria(M, n-1, pesos, valores)
 ```
 
+??? Checkpoint
+
+Apenas com o pseudo-código, tente determinar a complexidade da solução recursiva;
+
+::: Gabarito
+
+Para chegarmos na solução, teremos sempre que comparar o valor da mochila com e sem o ítem em questão, e isso é feito para todos os ítems da mochila, logo a complexidade dessa função é $O(2^n)$
+
+:::
+
+???
+
 Agora sim, a solução recursiva está finalizada! Mas será que ela é a melhor?
 
 Solução Dinâmica
@@ -431,12 +443,20 @@ para todo i menor que n:
         se não:
             matriz[n][M] = matriz[n-1][M]
 ```
+
+??? Checkpoint
+
+Apenas com o pseudo-código, tente determinar a complexidade da solução dinâmica da mesma maneira que foi feito com a recursiva;
+
+::: Gabarito
+
+Teremos a solução do algoritmo definida apenas quando preenchermos a matriz, o que é feito em um looping de M (valor da capacidade máxima) com um looping interno de n (número de objetos). O que resulta em uma complexidade de  $O(n\cdot M)$.
+
+:::
+
+???
+
 Agora sim o código está finalizado. Agora só falta mais um tópico.
-
-Complexidade da Solução Dinâmica
-------
-
-Teremos a solução do algoritmo definida, quando preenchermos a matriz, o que é feito em um looping de M (valor da capacidade máxima) com um looping interno de n (número de objetos). O que resulta em uma complexidade de  $O(n\cdot M)$.
 
 Comparação
 ------
