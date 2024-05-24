@@ -44,7 +44,7 @@ A melhor solução para essa lista seria escolher os item `md Controle`, `md Car
 
 Note que, esta solução nem sequer utiliza o `md Travesseiro`, e ainda assim obtivemos um valor maior que o anterior. Além disso, você deve ter percebido que, por mais que o peso da mochila não tenha sido atingido, conseguiu-se extrair o maior valor possível dos itens da lista. Isso ocorre porque **a melhor solução nem sempre é a que preenche a mochila completamente**
 
-Em termos de lógica de resolução, existem algumas maneiras diferentes de se encontrar a melhor mochila possível. Uma delas é por um método de tentativa e erro (que muito provavelmente foi a que você usou no Checkpoint anterior), o que não é ruim para casos pequenos como aquele, mas definitivamente não é a mais rápido, principalmente quando consideramos problemas em que a lista de ítens é extremamente extensa.
+Em termos de lógica de resolução, existem algumas maneiras diferentes de se encontrar a melhor mochila possível. Uma delas é por um método de tentativa e erro (que muito provavelmente foi a que você usou no Checkpoint anterior), o que não é ruim para casos pequenos como aquele, mas definitivamente não é o mais rápido, principalmente quando consideramos problemas em que a lista de ítens é extremamente extensa.
 
 Então vamos começar a pensar em uma estrutura um pouco mais voltada à código de uma função que resolva o problema. E para que essa função possa ser montada, precisamos conhecer quais são suas entradas e saídas.
 
@@ -273,7 +273,7 @@ Agora, vamos entender a lógica de preenchimento desta matriz. A lógica de esco
 
 Como vamos preencher a matriz com mochilas menores até chegar na desejada considerando cada vez mais objetos na lista, podemos fazer esse preenchimento por meio de dois loops aninhados (um dentro do outro).
 
-Como apenas precisamos garantir que, quando formos calcular uma mochila, todas as mochilas de valor máximo menores que utilizam uma sublista menor já foram calculadas, a ordem desses loops não importa muito, contanto que ambos sejam em ordem crescente. Para facilitar o entendimento iremos preencher cada mochila de capacidade menor ou igual a $M$ para cada sub lista de objetos que sejam menor ou igual a $n$, dessa forma:
+Como apenas precisamos garantir que, quando formos calcular uma mochila, todas as mochilas de valor máximo menores que utilizam uma sublista menor já foram calculadas, a ordem desses loops não importa muito, contanto que ambos sejam em ordem crescente. Para facilitar o entendimento iremos preencher cada mochila de capacidade menor ou igual a $M$ para cada sublista de objetos que sejam menor ou igual a $n$, dessa forma:
 
 ``` python
 para cada i menor ou igual a n, faça:
